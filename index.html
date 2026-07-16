@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>PDF a Markdown</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+<h1>PDF a Markdown</h1>
+<p class="sub">Todo se procesa localmente en tu navegador. Tu PDF nunca se sube a ningún servidor.</p>
+
+<div id="drop">
+  <div>📄</div>
+  <p>Haz clic o arrastra tu PDF aquí</p>
+  <input type="file" id="file-input" accept="application/pdf" />
+</div>
+
+<div id="status"></div>
+
+<div id="progress-wrap">
+  <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+</div>
+
+<div id="result-actions">
+  <button id="download-btn">⬇ Descargar .md</button>
+  <button id="copy-btn">📋 Copiar texto</button>
+</div>
+
+<textarea id="preview" readonly></textarea>
+
+<script src="script.js"></script>
+
+</body>
+</html>
