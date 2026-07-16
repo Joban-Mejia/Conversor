@@ -2,19 +2,39 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>PDF a Markdown</title>
+<title>Conversor Universal a Markdown</title>
 <link rel="stylesheet" href="style.css" />
+
+<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- Word (.docx): mammoth extrae HTML semántico, turndown lo pasa a Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/turndown@7/dist/turndown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/turndown-plugin-gfm@1/dist/turndown-plugin-gfm.js"></script>
+<!-- PowerPoint (.pptx) y Excel (.xlsx, gráficos): desempaquetado del ZIP/XML -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Excel (.xlsx, .xls) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- Imágenes (OCR) -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
 </head>
 <body>
 
-<h1>PDF a Markdown</h1>
-<p class="sub">Todo se procesa localmente en tu navegador. Tu PDF nunca se sube a ningún servidor.</p>
+<h1>Conversor Universal a Markdown</h1>
+<p class="sub">Todo se procesa localmente en tu navegador. Tu archivo nunca se sube a ningún servidor.</p>
+
+<div id="tabs">
+  <button class="tab active" data-format="pdf" type="button">📄 PDF</button>
+  <button class="tab" data-format="docx" type="button">📝 Word</button>
+  <button class="tab" data-format="pptx" type="button">📊 PowerPoint</button>
+  <button class="tab" data-format="xlsx" type="button">📈 Excel</button>
+  <button class="tab" data-format="image" type="button">🖼️ Imagen (OCR)</button>
+</div>
 
 <div id="drop">
-  <div>📄</div>
-  <p>Haz clic o arrastra tu PDF aquí</p>
-  <input type="file" id="file-input" accept="application/pdf" />
+  <div id="drop-icon">📄</div>
+  <p id="drop-hint">Haz clic o arrastra tu PDF aquí</p>
+  <input type="file" id="file-input" accept=".pdf,application/pdf" />
 </div>
 
 <div id="status"></div>

@@ -7,6 +7,23 @@ body {
 }
 h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
 p.sub { color: #666; margin-top: 0; margin-bottom: 24px; font-size: 14px; }
+#tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tab {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.tab:hover { background: #f5f5f5; }
+.tab.active { background: #3a7afe; border-color: #3a7afe; color: #fff; }
 #drop {
   border: 2px dashed #aaa;
   border-radius: 12px;
@@ -18,6 +35,7 @@ p.sub { color: #666; margin-top: 0; margin-bottom: 24px; font-size: 14px; }
 #drop:hover, #drop.dragover { border-color: #555; }
 #drop p { margin: 8px 0 0; color: #666; font-size: 14px; }
 #status { margin-top: 16px; font-size: 14px; color: #555; display: none; }
+#status.error { color: #c0392b; }
 #progress-wrap { margin-top: 10px; display: none; }
 #progress-bar-bg { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
 #progress-bar { height: 100%; width: 0%; background: #3a7afe; transition: width 0.2s; }
