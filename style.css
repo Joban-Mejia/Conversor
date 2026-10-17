@@ -40,6 +40,56 @@ p.sub { color: #666; margin-top: 0; margin-bottom: 24px; font-size: 14px; }
 #progress-bar-bg { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
 #progress-bar { height: 100%; width: 0%; background: #3a7afe; transition: width 0.2s; }
 #result-actions { margin-top: 16px; display: none; gap: 10px; }
+#result-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 16px;
+}
+#preview-panel {
+  flex: 1 1 0;
+  min-width: 0;
+}
+#fragment-panel {
+  display: none;
+  flex: 0 0 320px;
+  width: 320px;
+  border: 1px solid #dfe3eb;
+  border-radius: 12px;
+  background: #fafbff;
+  padding: 16px;
+  box-sizing: border-box;
+  position: sticky;
+  top: 20px;
+}
+#fragment-panel h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+#fragment-meta {
+  margin: 0 0 12px;
+  color: #5f6c87;
+  font-size: 12px;
+}
+#fragment-display {
+  min-height: 200px;
+  max-height: 420px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: "SF Mono", Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+#fragment-controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
 button {
   padding: 8px 16px;
   border-radius: 8px;
@@ -63,3 +113,12 @@ button:hover { background: #f5f5f5; }
   display: none;
 }
 input[type="file"] { display: none; }
+@media (max-width: 900px) {
+  #result-layout {
+    flex-direction: column;
+  }
+  #fragment-panel {
+    width: 100%;
+    flex-basis: auto;
+  }
+}

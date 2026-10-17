@@ -43,12 +43,27 @@
   <div id="progress-bar-bg"><div id="progress-bar"></div></div>
 </div>
 
-<div id="result-actions">
-  <button id="download-btn">⬇ Descargar .md</button>
-  <button id="copy-btn">📋 Copiar texto</button>
-</div>
+<div id="result-layout">
+  <div id="preview-panel">
+    <div id="result-actions">
+      <button id="download-btn">⬇ Descargar .md</button>
+      <button id="copy-btn">📋 Copiar texto</button>
+    </div>
 
-<textarea id="preview" readonly></textarea>
+    <textarea id="preview" readonly></textarea>
+  </div>
+
+  <aside id="fragment-panel">
+    <h3>Copiar por fragmentos</h3>
+    <p id="fragment-meta">0 fragmentos</p>
+    <div id="fragment-display" aria-live="polite"></div>
+    <div id="fragment-controls">
+      <button id="fragment-prev-btn" type="button">◀ Anterior</button>
+      <button id="fragment-next-btn" type="button">Siguiente ▶</button>
+      <button id="fragment-copy-btn" type="button">📋 Copiar fragmento</button>
+    </div>
+  </aside>
+</div>
 
 <script src="script.js"></script>
 

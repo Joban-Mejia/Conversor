@@ -471,10 +471,57 @@ const resultActions = document.getElementById('result-actions');
 const downloadBtn = document.getElementById('download-btn');
 const copyBtn = document.getElementById('copy-btn');
 const preview = document.getElementById('preview');
+const fragmentPanel = document.getElementById('fragment-panel');
+const fragmentMeta = document.getElementById('fragment-meta');
+const fragmentDisplay = document.getElementById('fragment-display');
+const fragmentPrevBtn = document.getElementById('fragment-prev-btn');
+const fragmentNextBtn = document.getElementById('fragment-next-btn');
+const fragmentCopyBtn = document.getElementById('fragment-copy-btn');
+
+const FRAGMENT_WORD_LIMIT = 9000;
 
 let markdownOut = '';
 let fileBaseName = 'documento';
 let currentTab = 'pdf';
+let fragmentChunks = [];
+let fragmentIndex = 0;
+
+function splitMarkdownIntoFragments(text, maxWords = FRAGMENT_WORD_LIMIT) {
+  const normalized = (text || '').trim();
+  if (!normalized) return [''];
+
+  const words = normalized.split(/\s+/);
+  const chunks = [];
+  let current = [];
+
+  for (const word of words) {
+    if (current.length >= maxWords) {
+      chunks.push(current.join(' '));
+      current = [];
+    }
+    current.push(word);
+  }
+
+  if (current.length) chunks.push(current.join(' '));
+  return chunks.length ? chunks : [''];
+}
+
+function renderFragmentPanel() {
+  if (!fragmentChunks.length) {
+    fragmentPanel.style.display = 'none';
+    return;
+  }
+
+  const total = fragmentChunks.length;
+  const current = fragmentChunks[fragmentIndex] || '';
+  const wordCount = current.trim() ? current.trim().split(/\s+/).length : 0;
+
+  fragmentMeta.textContent = `Fragmento ${fragmentIndex + 1} de ${total} • ${wordCount} palabras`;
+  fragmentDisplay.textContent = current;
+  fragmentPrevBtn.disabled = fragmentIndex === 0;
+  fragmentNextBtn.textContent = fragmentIndex === total - 1 ? 'Último fragmento' : 'Siguiente ▶';
+  fragmentNextBtn.disabled = fragmentIndex === total - 1;
+}
 
 function resetResultUI() {
   resultActions.style.display = 'none';
@@ -486,6 +533,11 @@ function resetResultUI() {
   status.classList.remove('error');
   status.textContent = '';
   markdownOut = '';
+  fragmentChunks = [];
+  fragmentIndex = 0;
+  fragmentPanel.style.display = 'none';
+  fragmentMeta.textContent = '0 fragmentos';
+  fragmentDisplay.textContent = '';
 }
 
 function setActiveTab(id) {
@@ -538,11 +590,15 @@ async function handleFile(file) {
     });
 
     markdownOut = '# ' + fileBaseName + '\n\n' + body;
+    fragmentChunks = splitMarkdownIntoFragments(markdownOut);
+    fragmentIndex = 0;
     progressWrap.style.display = 'none';
     status.textContent = '✅ Conversión completada.';
     resultActions.style.display = 'flex';
     preview.style.display = 'block';
     preview.value = markdownOut;
+    fragmentPanel.style.display = 'block';
+    renderFragmentPanel();
   } catch (err) {
     console.error(err);
     progressWrap.style.display = 'none';
@@ -565,4 +621,27 @@ copyBtn.addEventListener('click', async () => {
   await navigator.clipboard.writeText(markdownOut);
   copyBtn.textContent = '✓ Copiado';
   setTimeout(() => { copyBtn.textContent = '📋 Copiar texto'; }, 1500);
+});
+
+fragmentPrevBtn.addEventListener('click', () => {
+  if (fragmentIndex > 0) {
+    fragmentIndex -= 1;
+    renderFragmentPanel();
+  }
+});
+
+fragmentNextBtn.addEventListener('click', () => {
+  if (fragmentIndex < fragmentChunks.length - 1) {
+    fragmentIndex += 1;
+    renderFragmentPanel();
+  }
+});
+
+fragmentCopyBtn.addEventListener('click', async () => {
+  const currentFragment = fragmentChunks[fragmentIndex] || '';
+  if (!currentFragment.trim()) return;
+
+  await navigator.clipboard.writeText(currentFragment);
+  fragmentCopyBtn.textContent = '✓ Fragmento copiado';
+  setTimeout(() => { fragmentCopyBtn.textContent = '📋 Copiar fragmento'; }, 1500);
 });
